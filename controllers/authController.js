@@ -4,7 +4,7 @@ export class authController{
     static  register(req, res,){
        let userData = req.body;
     //    console.log(userData);
-    let query = sqlString.format('INSERT INTO UserNawin SET?',[userData]);
+    let query = sqlString.format('INSERT INTO User SET?',[userData]);
     conn.query(query,(err,result)=>{
         if(err){
             console.log(err);
