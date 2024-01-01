@@ -5,6 +5,7 @@ import router from "./routes/index.js";
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 app.get('/status',(req,res)=>{
     return res.json({
         success: true,

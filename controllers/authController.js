@@ -62,10 +62,15 @@ export class authController{
                     success:true,
                     message:"User login successful",
                     data:result[0],
-                    accessToken,
-                    refreshToken,
-                    accessTokenExp,
-                    refreshTokenExp,
+                    // accessToken,
+                    // refreshToken,
+                    // accessTokenExp,
+                    // refreshTokenExp,
+                    user:{
+                        userId : result[0].userId,
+                        userName : result[0].name,
+                        email : result[0].email,
+                    }
                 });
             }
             
