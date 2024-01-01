@@ -2,6 +2,12 @@ import conn from '../config/db.js';
 import sqlString from "sqlstring"
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc.js';
+dayjs.extend(utc);
+import mailconfig from '../config/email.js';
+dotenv.config();
 export class authController{
     static async login(req,res){
         let userData  = req.body;
@@ -43,10 +49,23 @@ export class authController{
                     name:result[0].name,
                     email:result[0].email,
                 } 
+                let accessToken = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET,{
+                    expiresIn: "1d",
+                });
+                let refreshToken = jwt.sign(user,process.env.REFRESH_TOKEN_SECRET,{
+                    expiresIn: "30d",
+                });
+                let accessTokenExp = dayjs().add(1,"day").utc().format("YYYY-MM-DDTHH:mm:ss");
+                let refreshTokenExp = dayjs().add(30,"day").utc().format("YYYY-MM-DDTHH:mm:ss");
+                
                 return res.json({
                     success:true,
                     message:"User login successful",
                     data:result[0],
+                    accessToken,
+                    refreshToken,
+                    accessTokenExp,
+                    refreshTokenExp,
                 });
             }
             
