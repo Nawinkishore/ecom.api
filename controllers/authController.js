@@ -1,6 +1,7 @@
 import conn from '../config/db.js';
 import sqlString from "sqlstring"
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 export class authController{
     static async login(req,res){
         let userData  = req.body;
@@ -36,7 +37,12 @@ export class authController{
                         success: false,
                         message:"did not verified"
                     });
-                }   
+                }  
+                let user = {
+                    userId: result[0].userId,
+                    name:result[0].name,
+                    email:result[0].email,
+                } 
                 return res.json({
                     success:true,
                     message:"User login successful",
